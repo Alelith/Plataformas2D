@@ -376,8 +376,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   moveSpeedModifier: 1.5
+  jumpForce: 3
   groundCheckCollider: {fileID: 2121965984}
-  jumpForce: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!70 &109448333
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -387,7 +390,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 109448328}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8428ea6587285774486f890a240f7998, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
