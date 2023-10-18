@@ -145,8 +145,10 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void ChangeAnimation()
     {
-        //Set the velocity of the blend tree in the animator
-        animator.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
+        //Set the xVelocity of the blend tree in the animator
+        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+        //Set the yVelocity of the blend tree in the animator
+        animator.SetFloat("xVelocity", rb.velocity.y);
     }
     #endregion
 }
