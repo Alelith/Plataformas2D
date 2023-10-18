@@ -13,16 +13,30 @@ public class PlayerMovement : MonoBehaviour
     
     [Range(2, 10)]
     [SerializeField]
-    private float moveSpeedModifier = 2;
+    private float runSpeedModifier = 2;
+    [Range(1, 10)]
+    [SerializeField]
+    private float crouchSpeedModifier = 2;
+    [Range(1, 4)]
+    [SerializeField]
+    private int totalJumps = 2;
+    private int availableJumps;
 
     //Jump
     [Range(1, 10)]
     [SerializeField]
     private float jumpForce = 1;
 
+    [SerializeField]
+    Collider2D standCollider;
+    [SerializeField]
+    Collider2D crouchCollider;
+
     //Others
     [SerializeField]
     private Transform groundCheckCollider;
+    [SerializeField]
+    private Transform overheadCheckCollider;
     [SerializeField]
     private LayerMask groundLayer;
 
@@ -37,13 +51,16 @@ public class PlayerMovement : MonoBehaviour
 
     //Inputs
     private float horizontalAxis = 0;
-    private bool isShifting = false;
-    private bool isSpacing = false;
+    private bool isRunning = false;
+    private bool isJumping = false;
+    private bool isDoubleJumping = false;
+    private bool isCrouching = false;
     #endregion
 
     #region Unity functions
     private void Awake()
     {
+        availableJumps = totalJumps;
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
@@ -58,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        Jump();
+        Crouch();
         ChangeAnimation();
     }
     #endregion
@@ -71,9 +88,15 @@ public class PlayerMovement : MonoBehaviour
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckCollider.position, 0.2f, groundLayer);
         if (colliders.Length > 0)
+        {
             isGrounded = true;
-        else 
+            availableJumps = totalJumps;
+            animator.SetBool("isDoubleJumping", false);
+        }
+        else
             isGrounded = false;
+
+        animator.SetBool("isJumping", !isGrounded);
     }
 
     /// <summary>
@@ -86,29 +109,63 @@ public class PlayerMovement : MonoBehaviour
 
         //Gets if the LShift is clicked
         if (Input.GetKeyDown(KeyCode.LeftShift))
-            isShifting = true;
+            isRunning = true;
         //Gets if the LShift is not clicked
         else if (Input.GetKeyUp(KeyCode.LeftShift))
-            isShifting = false;
+            isRunning = false;
 
-        //Gets if the space is clicked
+        //If we press Jump button enable jump 
         if (Input.GetButtonDown("Jump"))
-            isSpacing = true;
-        //Gets if the space is not clicked
-        if (Input.GetButtonUp("Jump"))
-            isSpacing = false;
+            Jump();
+
+        //If we press Crouch button enable crouch 
+        if (Input.GetButtonDown("Crouch"))
+            isCrouching = true;
+        //Otherwise disable it
+        else if (Input.GetButtonUp("Crouch"))
+            isCrouching = false;
     }
 
+    /// <summary>
+    /// Applies force to the player to jump
+    /// </summary>
     private void Jump()
     {
-        if (isGrounded && isSpacing)
+        if (isGrounded)
         {
-            //Reset the conditional booleans
-            isGrounded = false;
-            isSpacing = false;
+            isDoubleJumping = true;
+            availableJumps--;
+
             //Add jump force
-            rb.AddForce(Vector2.up * jumpForce * 100);
+            rb.velocity = Vector2.up * jumpForce;
         }
+        else
+        {
+            if (isDoubleJumping && availableJumps > 0)
+            {
+                availableJumps--;
+
+                //Add jump force
+                rb.velocity = Vector2.up * jumpForce;
+                animator.SetBool("isDoubleJumping", true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Applies the crouch collider and animations
+    /// </summary>
+    private void Crouch()
+    {
+        if (!isCrouching)
+        {
+            if (Physics2D.OverlapCircle(overheadCheckCollider.position, 0.2f, groundLayer))
+                isCrouching = true;
+        }
+
+        crouchCollider.enabled = isCrouching;
+        standCollider.enabled = !isCrouching;
+        animator.SetBool("isCrouching", isCrouching);
     }
 
     /// <summary>
@@ -119,8 +176,10 @@ public class PlayerMovement : MonoBehaviour
         //Direction where the player is going to move in the x axis
         float xVal = horizontalAxis * moveSpeed * 100 * Time.fixedDeltaTime;
 
-        if (isShifting)
-            xVal *= moveSpeedModifier;
+        if (isRunning)
+            xVal *= runSpeedModifier;
+        else if (isCrouching)
+            xVal /= crouchSpeedModifier;
 
         Vector2 targetVelocity = new Vector2(xVal, rb.velocity.y);
         //Movement of the player using the rigid body
@@ -148,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
         //Set the xVelocity of the blend tree in the animator
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         //Set the yVelocity of the blend tree in the animator
-        animator.SetFloat("xVelocity", rb.velocity.y);
+        animator.SetFloat("yVelocity", rb.velocity.y);
     }
     #endregion
 }
