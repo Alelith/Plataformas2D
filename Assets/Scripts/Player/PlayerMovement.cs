@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    #region Atributes
+    #region Attributes
     //Move
     [Header("Movement")]
     [Range(1, 10)]
     [SerializeField]
     private float moveSpeed = 1;
-    
     [Range(2, 10)]
     [SerializeField]
     private float runSpeedModifier = 2;
@@ -23,21 +22,21 @@ public class PlayerMovement : MonoBehaviour
     private int availableJumps;
 
     //Jump
+    [Header("Jump")]
     [Range(1, 10)]
     [SerializeField]
     private float jumpForce = 1;
 
-    [SerializeField]
-    Collider2D standCollider;
-    [SerializeField]
-    Collider2D crouchCollider;
-
-    //Others
+    //Ground & Overhead
+    [Header("Ground & Overhead")]
     [SerializeField]
     private Transform groundCheckCollider;
     [SerializeField]
     private Transform overheadCheckCollider;
     [SerializeField]
+    Collider2D standCollider;
+    [SerializeField]
+    Collider2D crouchCollider;
     private LayerMask groundLayer;
 
     //Components
@@ -64,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
+        groundLayer = LayerMask.GetMask("Ground");
     }
 
     private void Update()
@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    #region Movement functions
+    #region Checks & Inputs Functions
     /// <summary>
     /// Checks if the player is colliding with another collider of the ground layer
     /// </summary>
@@ -125,7 +125,9 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetButtonUp("Crouch"))
             isCrouching = false;
     }
+    #endregion
 
+    #region Movement Functions
     /// <summary>
     /// Applies force to the player to jump
     /// </summary>
