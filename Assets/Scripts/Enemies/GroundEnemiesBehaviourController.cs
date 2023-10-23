@@ -5,42 +5,34 @@ using UnityEngine;
 public class GroundEnemiesBehaviourController : EnemyBehaviour
 {
     #region Attributes
-    //Movement
-    [Header("Movement")]
-    [Range(1, 10)]
-    [SerializeField]
-    private float moveSpeed;
-    [SerializeField]
-    private int steps;
-    private Vector2 initialDirection = Vector2.right;
-    private bool canMove = true;
-    private bool endStop = true;
-
-    //Animation
-    private Animator animator;
+    //Detection
+    protected Transform wallDetection;
     #endregion
 
     #region Unity Functions
-    private void Awake()
+    protected virtual void Awake()
     {
         groundDetection = transform.GetChild(0);
+        wallDetection = transform.GetChild(1);
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         groundLayer = LayerMask.GetMask("Ground");
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        StartCoroutine(Counter());
+        if (canIdle)
+            StartCoroutine(Counter());
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        if (endStop)
+        if (endStop && canIdle)
             StartCoroutine(Counter());
+        if (canIdle)
+            ChangeAnimation();
         EnemyMove();
-        ChangeAnimation();
     }
     #endregion
 
@@ -54,7 +46,7 @@ public class GroundEnemiesBehaviourController : EnemyBehaviour
             if (WallDetection() || !GroundDetection())
             {
                 initialDirection = -initialDirection;
-                spriteRenderer.flipX = !spriteRenderer.flipX;
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 180, 0);
             }
             targetVelocity = new Vector2(initialDirection.x * moveSpeed * 100 * Time.fixedDeltaTime, rb.velocity.y);
         }
@@ -64,23 +56,10 @@ public class GroundEnemiesBehaviourController : EnemyBehaviour
         }
         rb.velocity = targetVelocity;
     }
-
-    private IEnumerator Counter()
-    {
-        endStop = false;
-        for (int i = 0; i < steps; i++)
-        {
-            yield return new WaitForSeconds(1);
-        }
-        canMove = false;
-        yield return new WaitForSeconds(3);
-        canMove = true;
-        endStop = true;
-    }
     #endregion
 
     #region Animation Functions
-    private void ChangeAnimation()
+    protected override void ChangeAnimation()
     {
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
     }

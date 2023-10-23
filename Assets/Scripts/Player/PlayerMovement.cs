@@ -51,9 +51,11 @@ public class PlayerMovement : MonoBehaviour
     //Inputs
     private float horizontalAxis = 0;
     private bool isRunning = false;
-    private bool isJumping = false;
     private bool isDoubleJumping = false;
     private bool isCrouching = false;
+    private bool isHurt = false;
+    private bool canStand = true;
+    private bool didCanStand = true;
     #endregion
 
     #region Unity functions
@@ -70,13 +72,25 @@ public class PlayerMovement : MonoBehaviour
     {
         GetInput();
         GroundCheck();
+        CanStand();
     }
 
     private void FixedUpdate()
     {
-        Move();
-        Crouch();
+        if (!isHurt)
+        {
+            Move();
+            Crouch();
+        }
         ChangeAnimation();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            StartCoroutine(Hurt());
+        }
     }
     #endregion
 
@@ -100,6 +114,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Checks if the player is colliding with another collider of the ground layer
+    /// </summary>
+    private void CanStand()
+    {
+        canStand = !Physics2D.Raycast(overheadCheckCollider.transform.position, Vector2.up, 0.5f, groundLayer);
+    }
+
+    /// <summary>
     /// Gets the keyboard and mouse input
     /// </summary>
     private void GetInput()
@@ -119,10 +141,10 @@ public class PlayerMovement : MonoBehaviour
             Jump();
 
         //If we press Crouch button enable crouch 
-        if (Input.GetButtonDown("Crouch"))
+        if (Input.GetButton("Crouch"))
             isCrouching = true;
-        //Otherwise disable it
-        else if (Input.GetButtonUp("Crouch"))
+        //If we press Crouch button enable crouch 
+        else if (!Input.GetButton("Crouch") && canStand)
             isCrouching = false;
     }
     #endregion
@@ -133,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-        if (isGrounded)
+        if (isGrounded && !isCrouching)
         {
             isDoubleJumping = true;
             availableJumps--;
@@ -141,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
             //Add jump force
             rb.velocity = Vector2.up * jumpForce;
         }
-        else
+        else if (!isGrounded)
         {
             if (isDoubleJumping && availableJumps > 0)
             {
@@ -159,15 +181,22 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Crouch()
     {
-        if (!isCrouching)
+        if (!canStand)
         {
-            if (Physics2D.OverlapCircle(overheadCheckCollider.position, 0.2f, groundLayer))
+            if (rb.velocity.x == 0)
+            {
                 isCrouching = true;
+                animator.speed = 0;
+            }
+            else if (rb.velocity.x != 0)
+            {
+                isCrouching = true;
+                animator.speed = 1;
+            }
         }
 
         crouchCollider.enabled = isCrouching;
         standCollider.enabled = !isCrouching;
-        animator.SetBool("isCrouching", isCrouching);
     }
 
     /// <summary>
@@ -190,17 +219,32 @@ public class PlayerMovement : MonoBehaviour
         //Checks if the player is looking right and move to the left
         if (facingRight && horizontalAxis < 0)
         {
-            sprite.flipX = true;
+            transform.eulerAngles = new Vector3 (0, 180, 0);
             facingRight = false;
         }
         //Checks if the player is looking left and move to the right
         else if (!facingRight && horizontalAxis > 0)
         {
-            sprite.flipX = false;
+            transform.eulerAngles = Vector3.zero;
             facingRight = true;
         }
     }
 
+    /// <summary>
+    /// Applies movement when the player gets hurt
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Hurt()
+    {
+        isHurt = true;
+        rb.velocity = new Vector2(-rb.velocity.x * moveSpeed * 20 * Time.fixedDeltaTime, Mathf.Abs(rb.velocity.y) * moveSpeed * 10 * Time.fixedDeltaTime);
+        yield return new WaitForSeconds(1f);
+        isHurt = false;
+        yield return new WaitForSeconds(0.5f);
+    }
+    #endregion
+
+    #region Animation Functions
     /// <summary>
     /// Changes the animations of the player
     /// </summary>
@@ -210,6 +254,9 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         //Set the yVelocity of the blend tree in the animator
         animator.SetFloat("yVelocity", rb.velocity.y);
+        animator.SetBool("isHurt", isHurt);
+        animator.SetBool("canStand", canStand);
+        animator.SetBool("isCrouching", isCrouching);
     }
     #endregion
 }
