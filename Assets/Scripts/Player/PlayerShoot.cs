@@ -11,6 +11,7 @@ public class PlayerShoot : MonoBehaviour
     private GameObject bullet;
 
     //Object to control shoot
+    [SerializeField]
     private Transform shootController;
 
     //Types of shoot
@@ -18,28 +19,29 @@ public class PlayerShoot : MonoBehaviour
     #endregion
 
     #region Unity Functions
-    private void Awake()
-    {
-        shootController = transform.GetChild(3);
-    }
-
     private void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            chargeTime += Time.deltaTime;
-        }
-        else
-        {
-            chargeTime = 0;
-        }
+        GetInput();
     }
     #endregion
 
     #region Input Functions
-    private void Inputs()
+    private void GetInput()
     {
-        
+        if (Input.GetMouseButton(0))
+            chargeTime += Time.deltaTime;
+        if (Input.GetMouseButtonUp(0))
+            Shoot();
+    }
+    #endregion
+
+    #region Shoot Functions
+    private void Shoot()
+    {
+        if (chargeTime > 1)
+            Instantiate(bullet, shootController.position, shootController.rotation).transform.localScale = new Vector3(2, 2, 2);
+        else
+            Instantiate(bullet, shootController.position, shootController.rotation);
     }
     #endregion
 }

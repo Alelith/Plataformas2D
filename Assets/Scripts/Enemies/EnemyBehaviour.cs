@@ -9,7 +9,7 @@ public abstract class EnemyBehaviour : MonoBehaviour
     #region Attributes
     //Movement
     [Header("Movement")]
-    [Range(1, 10)]
+    [Range(0, 10)]
     [SerializeField]
     protected float moveSpeed = 1;
     [SerializeField]
@@ -18,6 +18,11 @@ public abstract class EnemyBehaviour : MonoBehaviour
     protected bool canIdle;
     [SerializeField]
     protected Vector2 initialDirection = Vector2.right;
+
+    //Life
+    [SerializeField]
+    protected float life = 2;
+    protected bool canTakeDamage = true;
 
     //Animation
     protected Animator animator;
@@ -71,6 +76,33 @@ public abstract class EnemyBehaviour : MonoBehaviour
     protected abstract void EnemyMove();
     #endregion
 
+    #region Damage Functions
+    /// <summary>
+    /// Applies the damage to the enemy
+    /// </summary>
+    /// <param name="damage"></param>
+    public virtual void TakeDamage(float damage)
+    {
+        if (canTakeDamage)
+        {
+            life -= damage;
+            StartCoroutine(DamageAnimation(4));
+
+            if (life <= 0)
+                Dead();
+        }
+        
+    }
+
+    /// <summary>
+    /// Erases the enemy of the map
+    /// </summary>
+    protected void Dead()
+    {
+        Destroy(gameObject);
+    }
+    #endregion
+
     #region Counters
     /// <summary>
     /// Control the enemy movement and idle
@@ -93,9 +125,20 @@ public abstract class EnemyBehaviour : MonoBehaviour
     /// <summary>
     /// Changes the enemy animation
     /// </summary>
-    protected virtual void ChangeAnimation()
+    protected abstract void ChangeAnimation();
+    protected IEnumerator DamageAnimation(int blinkTimes)
     {
-        
+        canTakeDamage = false;
+        do
+        {
+            spriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+            blinkTimes--;
+        } while (blinkTimes > 0);
+
+        canTakeDamage = true;
     }
     #endregion
 }

@@ -65,4 +65,11 @@ public class FlyingEnemiesBehaviourController : EnemyBehaviour
         rb.velocity = targetVelocity;
     }
     #endregion
+
+    #region Animation Functions
+    protected override void ChangeAnimation()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
 }

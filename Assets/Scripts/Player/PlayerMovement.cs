@@ -181,19 +181,24 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Crouch()
     {
-        if (!canStand)
+        if (isGrounded)
         {
-            if (rb.velocity.x == 0)
+            if (!canStand)
             {
-                isCrouching = true;
-                animator.speed = 0;
-            }
-            else if (rb.velocity.x != 0)
-            {
-                isCrouching = true;
-                animator.speed = 1;
+                if (rb.velocity.x == 0)
+                {
+                    isCrouching = true;
+                    animator.speed = 0;
+                }
+                else if (rb.velocity.x != 0)
+                {
+                    isCrouching = true;
+                    animator.speed = 1;
+                }
             }
         }
+        else
+            isCrouching = false;
 
         crouchCollider.enabled = isCrouching;
         standCollider.enabled = !isCrouching;
