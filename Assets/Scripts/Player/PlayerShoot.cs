@@ -31,7 +31,7 @@ public class PlayerShoot : MonoBehaviour
     private void Update()
     {
         GetInput();
-        ChangeAnimation();
+        ChangeChargeAnimation();
     }
     #endregion
 
@@ -42,18 +42,16 @@ public class PlayerShoot : MonoBehaviour
             chargeTime += Time.deltaTime;
         if (Input.GetMouseButtonUp(0))
         {
-            StartCoroutine(Shoot());
+            StartCoroutine(ChangeShootAnimation());
+            Shoot();
             chargeTime = 0;
-            isShooting = false;
         }
     }
     #endregion
 
     #region Shoot Functions
-    private IEnumerator Shoot()
+    private void Shoot()
     {
-        isShooting = true;
-        yield return new WaitForSeconds(0.3f);
         if (chargeTime > 1)
             Instantiate(bullet, shootController.position, shootController.rotation).transform.localScale = new Vector3(2, 2, 2);
         else
@@ -62,9 +60,14 @@ public class PlayerShoot : MonoBehaviour
     #endregion
 
     #region Animation Functions
-    private void ChangeAnimation()
+    private IEnumerator ChangeShootAnimation()
     {
-        animator.SetBool("isShooting", isShooting);
+        animator.SetBool("isShooting", true);
+        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("isShooting", false);
+    }
+    private void ChangeChargeAnimation()
+    {
         animator.SetFloat("charging", chargeTime);
     }
     #endregion
