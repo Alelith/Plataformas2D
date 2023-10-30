@@ -55,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isCrouching = false;
     private bool isHurt = false;
     private bool canStand = true;
-    private bool didCanStand = true;
     #endregion
 
     #region Unity functions
