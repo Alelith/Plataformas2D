@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7ae4f59e27634574f90c5d9b12024280, type: 3}
+    - target: {fileID: 2900205694803157877, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
+      propertyPath: destroyPrefab
+      value: 
+      objectReference: {fileID: 1399884353978574120, guid: 027b2e1d3fd458244bdf948ba5c7e5a9, type: 3}
     - target: {fileID: 5582662293385045859, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
       propertyPath: m_Controller
       value: 

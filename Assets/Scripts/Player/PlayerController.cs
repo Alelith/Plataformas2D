@@ -5,67 +5,66 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
+    //Health
     [Header("Player Health")]
     [SerializeField]
-    private float health = 10;
+    private int maxHealth = 10;
+    private int currHealth = 10;
 
-    [Header("Blink")]
-    [SerializeField]
-    private float blinkSpeed = 2.5f;
+    //Score
+    private int score = 0;
 
-    [HideInInspector]
-    public int powerUp = 0;
-
-    private bool canTakeDamage = true;
+    //Other components
+    private PlayerShoot playerShoot;
+    private PlayerMovement playerMovement;
     #endregion
 
     #region Unity Functions
     private void Awake()
     {
-        
+        playerMovement = GetComponent<PlayerMovement>();
+        playerShoot = GetComponent<PlayerShoot>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("PowerUp"))
+        if (collision.CompareTag("BulletPowerUp"))
         {
-            //AudioManager.instance.PlayPowerUpSound();
+            playerShoot.Bullets.Add(collision.GetComponent<PowerUpController>().BPU);
 
             Destroy(collision.gameObject);
-
-            powerUp++;
-
-            /*if (powerUp >= GameManager.gameManager.powerUps)
-            {
-                GameManager.gameManager.WinGame();
-            }*/
+        }
+        if (collision.CompareTag("PowerUp"))
+        {
+            //TODO Add movement powerUps
+        }
+        else if (collision.CompareTag("Enemy"))
+        {
+            StartCoroutine(Hurt());
+            currHealth--;
         }
     }
     #endregion
 
-    #region Damage Functions
+    #region Other Functions
     /// <summary>
-    /// Manages Player Damage
+    /// Applies movement when the player gets hurt
     /// </summary>
-    public void TakeDamage()
+    /// <returns></returns>
+    private IEnumerator Hurt()
     {
-        if (canTakeDamage)
-        {
-            //AudioManager.instance.PlayDamageSound();
-
-            health--;
-
-            if (health <= 0)
-            {
-                //GameManager.gameManager.LoseGame();
-            }
-        }
+        playerMovement.IsHurt = true;
+        playerMovement.Hurt();
+        yield return new WaitForSeconds(1f);
+        playerMovement.IsHurt = false;
+        yield return new WaitForSeconds(0.5f);
     }
     #endregion
 
     #region Getters & Setters
-    //Getters & Setters of private classes
-    public float Health { get => health; set => health = value; }
-    public int PowerUp { get => powerUp; set => powerUp = value; }
+    public PlayerShoot PlayerShoot { get => playerShoot; }
+    public PlayerMovement PlayerMovement { get => playerMovement; }
+    public int CurrHealth { get => currHealth; }
+    public int Score { get => score; }
     #endregion
 }

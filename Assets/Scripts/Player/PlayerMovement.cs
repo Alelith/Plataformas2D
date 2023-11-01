@@ -41,8 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
     //Components
     private Rigidbody2D rb;
-    private SpriteRenderer sprite;
     private Animator animator;
+    private PlayerController playerController;
 
     //Player Info
     private bool facingRight = true;
@@ -60,9 +60,9 @@ public class PlayerMovement : MonoBehaviour
     #region Unity functions
     private void Awake()
     {
+        playerController = GetComponent<PlayerController>();
         availableJumps = totalJumps;
         rb = GetComponent<Rigidbody2D>();
-        sprite = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
         groundLayer = LayerMask.GetMask("Ground");
     }
@@ -82,14 +82,6 @@ public class PlayerMovement : MonoBehaviour
             Crouch();
         }
         ChangeAnimation();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            StartCoroutine(Hurt());
-        }
     }
     #endregion
 
@@ -233,19 +225,6 @@ public class PlayerMovement : MonoBehaviour
             facingRight = true;
         }
     }
-
-    /// <summary>
-    /// Applies movement when the player gets hurt
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator Hurt()
-    {
-        isHurt = true;
-        rb.velocity = new Vector2(-rb.velocity.x * moveSpeed * 20 * Time.fixedDeltaTime, Mathf.Abs(rb.velocity.y) * moveSpeed * 10 * Time.fixedDeltaTime);
-        yield return new WaitForSeconds(1f);
-        isHurt = false;
-        yield return new WaitForSeconds(0.5f);
-    }
     #endregion
 
     #region Animation Functions
@@ -262,5 +241,20 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("canStand", canStand);
         animator.SetBool("isCrouching", isCrouching);
     }
+    #endregion
+
+    #region Other Functions
+    /// <summary>
+    /// Applies movement when the player gets hurt
+    /// </summary>
+    /// <returns></returns>
+    public void Hurt()
+    {
+        rb.velocity = new Vector2(-rb.velocity.x * moveSpeed * 20 * Time.fixedDeltaTime, Mathf.Abs(rb.velocity.y) * moveSpeed * 10 * Time.fixedDeltaTime);
+    }
+    #endregion
+
+    #region Getters & Setters
+    public bool IsHurt { get => isHurt; set => isHurt = value; }
     #endregion
 }

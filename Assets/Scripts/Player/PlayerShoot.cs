@@ -8,7 +8,7 @@ public class PlayerShoot : MonoBehaviour
     #region Attributes
     //Munition object
     [SerializeField]
-    private GameObject bullet;
+    private List<BulletPowerUp> bullets;
 
     //Object to control shoot
     [SerializeField]
@@ -16,7 +16,7 @@ public class PlayerShoot : MonoBehaviour
 
     //Types of shoot
     private float chargeTime = 0;
-    private bool isShooting = false;
+    private int currentBullet;
 
     //Animator
     private Animator animator;
@@ -42,10 +42,15 @@ public class PlayerShoot : MonoBehaviour
             chargeTime += Time.deltaTime;
         if (Input.GetMouseButtonUp(0))
         {
-            StartCoroutine(ChangeShootAnimation());
-            Shoot();
-            chargeTime = 0;
+            if ((animator.GetBool("isCrouching") && animator.GetFloat("xVelocity") == 0 && animator.GetBool("canStand")) || (!animator.GetBool("isCrouching")))
+            {
+                StartCoroutine(ChangeShootAnimation());
+                Shoot();
+                chargeTime = 0;
+            }
         }
+        if (Input.GetMouseButtonDown(1))
+            currentBullet = (currentBullet + 1) % bullets.Count;
     }
     #endregion
 
@@ -53,9 +58,9 @@ public class PlayerShoot : MonoBehaviour
     private void Shoot()
     {
         if (chargeTime > 1)
-            Instantiate(bullet, shootController.position, shootController.rotation).transform.localScale = new Vector3(2, 2, 2);
+            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation).transform.localScale = new Vector3(2, 2, 2);
         else if (chargeTime < 1)
-            Instantiate(bullet, shootController.position, shootController.rotation);
+            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation);
     }
     #endregion
 
@@ -70,5 +75,10 @@ public class PlayerShoot : MonoBehaviour
     {
         animator.SetFloat("charging", chargeTime);
     }
+    #endregion
+
+    #region Getters & Setters
+    public List<BulletPowerUp> Bullets { get => bullets; set => bullets = value; }
+    public int CurrentBullet { get => currentBullet; set => currentBullet = value; }
     #endregion
 }

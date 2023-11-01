@@ -44,10 +44,6 @@ public abstract class EnemyBehaviour : MonoBehaviour
     protected LayerMask groundLayer;
     #endregion
 
-    #region Unity Functions
-    
-    #endregion
-
     #region Detection Functions 
     /// <summary>
     /// Detects if the enemy is touching the ground

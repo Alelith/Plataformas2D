@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
     private float speed;
     [SerializeField]
     private float damage;
+    [SerializeField]
+    private GameObject destroyPrefab;
 
     private void Update()
     {
@@ -18,6 +20,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+            Instantiate(destroyPrefab, transform.position, Quaternion.identity);
             collision.GetComponent<EnemyBehaviour>().TakeDamage(damage);
             Destroy(gameObject);
         }
