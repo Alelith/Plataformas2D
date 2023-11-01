@@ -146,6 +146,8 @@ MonoBehaviour:
   steps: 3
   canIdle: 1
   initialDirection: {x: -1, y: 0}
+  life: 2
+  deadPrefab: {fileID: 1795467754262238526, guid: 3fb800c6a799ca94e85ef434fa626504, type: 3}
 --- !u!1 &6924823437219878980
 GameObject:
   m_ObjectHideFlags: 0

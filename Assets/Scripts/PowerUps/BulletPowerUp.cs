@@ -7,17 +7,29 @@ public class BulletPowerUp : ScriptableObject
 {
     [SerializeField]
     private BulletPowerUpTypes bulletPowerUpType;
+    [TextArea]
     [SerializeField]
     private string description;
     [SerializeField]
     private GameObject bulletPrefab;
+    [SerializeField]
+    private int score;
+    [SerializeField]
+    private Sprite sprite;
 
-    public BulletPowerUpTypes BulletPowerUpTypes { get => bulletPowerUpType; }
+    public BulletPowerUpTypes BulletPowerUpType { get => bulletPowerUpType; }
     public string Description { get => description; }
     public GameObject BulletPrefab { get => bulletPrefab; }
+    public int Score { get => score; }
+    public Sprite Sprite { get => sprite; }
 }
 
 public enum BulletPowerUpTypes
 {
-    
+    Bolt,
+    Charged,
+    Crossed,
+    Pulse,
+    Spark,
+    Waveform
 }

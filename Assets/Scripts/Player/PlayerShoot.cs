@@ -38,7 +38,7 @@ public class PlayerShoot : MonoBehaviour
     #region Input Functions
     private void GetInput()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && animator.GetFloat("xVelocity") == 0)
             chargeTime += Time.deltaTime;
         if (Input.GetMouseButtonUp(0))
         {
@@ -54,7 +54,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (chargeTime > 1)
             Instantiate(bullet, shootController.position, shootController.rotation).transform.localScale = new Vector3(2, 2, 2);
-        else
+        else if (chargeTime < 1)
             Instantiate(bullet, shootController.position, shootController.rotation);
     }
     #endregion
@@ -63,7 +63,7 @@ public class PlayerShoot : MonoBehaviour
     private IEnumerator ChangeShootAnimation()
     {
         animator.SetBool("isShooting", true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.15f);
         animator.SetBool("isShooting", false);
     }
     private void ChangeChargeAnimation()

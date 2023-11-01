@@ -22,7 +22,13 @@ public abstract class EnemyBehaviour : MonoBehaviour
     //Life
     [SerializeField]
     protected float life = 2;
+    [SerializeField]
+    protected GameObject deadPrefab;
     protected bool canTakeDamage = true;
+
+    //Score
+    [SerializeField]
+    protected int score;
 
     //Animation
     protected Animator animator;
@@ -99,6 +105,7 @@ public abstract class EnemyBehaviour : MonoBehaviour
     /// </summary>
     protected void Dead()
     {
+        Instantiate(deadPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
     #endregion

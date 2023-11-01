@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{782E37F6-2CCD-3E6D-8074-11FF8C7333F1}</ProjectGuid>
+    <ProjectGuid>{1BC91711-DE18-5B4F-E648-D45C9CAC7226}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Lifetime.cs" />
     <Compile Include="Assets\Scripts\Enemies\FlyingEnemiesBehaviourController.cs" />
     <Compile Include="Assets\Scripts\Enemies\JumperEnemyBehavoiurController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />

@@ -6,8 +6,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PowerUp", menuName = "PowerUp/PowerUp")]
 public class PowerUp : ScriptableObject
 {
-    public PowerUpTypes PowerUpType { get; set; }
-    public string Description { get; set; }
+    [SerializeField]
+    private PowerUpTypes powerUpType;
+    [SerializeField]
+    private string description;
+    [SerializeField]
+    private int score;
+    [SerializeField]
+    private Sprite sprite;
+
+    public PowerUpTypes PowerUpType { get => powerUpType; }
+    public string Description { get => description; }
+    public int Score { get => score; }
+    public Sprite Sprite { get => sprite; }
 }
 
 public enum PowerUpTypes
