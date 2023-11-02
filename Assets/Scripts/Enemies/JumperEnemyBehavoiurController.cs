@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumperEnemyBehavoiurController : GroundEnemiesBehaviourController, AttackerInterface
+public class JumperEnemyBehavoiurController : GroundEnemiesBehaviourController, IAttackerInterface
 {
     #region Attributes
     //Movement
