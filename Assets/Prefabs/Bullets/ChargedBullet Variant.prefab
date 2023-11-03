@@ -21,6 +21,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ffef8e12364078d418108724129cc626, type: 3}
     - target: {fileID: 2900205694803157877, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900205694803157877, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900205694803157877, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
       propertyPath: destroyPrefab
       value: 
       objectReference: {fileID: 6474396325447158666, guid: c7e429797966d2c4d9216f919b91de20, type: 3}

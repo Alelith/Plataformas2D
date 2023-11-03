@@ -8,6 +8,7 @@ public class PowerUp : ScriptableObject
 {
     [SerializeField]
     private PowerUpTypes powerUpType;
+    [TextArea]
     [SerializeField]
     private string description;
     [SerializeField]

@@ -14,6 +14,17 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField]
     private Transform shootController;
 
+    //Energy
+    [SerializeField]
+    private int maxEnergy;
+    [SerializeField]
+    private int currEnergy;
+    [SerializeField]
+    private int energyFillCount;
+    [SerializeField]
+    private int energyFillTime;
+    private float energyCounter;
+
     //Types of shoot
     private float chargeTime = 0;
     private int currentBullet;
@@ -32,6 +43,7 @@ public class PlayerShoot : MonoBehaviour
     {
         GetInput();
         ChangeChargeAnimation();
+        CanCharge();
     }
     #endregion
 
@@ -42,12 +54,13 @@ public class PlayerShoot : MonoBehaviour
             chargeTime += Time.deltaTime;
         if (Input.GetMouseButtonUp(0))
         {
-            if ((animator.GetBool("isCrouching") && animator.GetFloat("xVelocity") == 0 && animator.GetBool("canStand")) || (!animator.GetBool("isCrouching")))
+            if (((animator.GetBool("isCrouching") && animator.GetFloat("xVelocity") == 0 && animator.GetBool("canStand")) || (!animator.GetBool("isCrouching"))) && currEnergy >= bullets[currentBullet].EnergyPay)
             {
                 StartCoroutine(ChangeShootAnimation());
                 Shoot();
-                chargeTime = 0;
+                currEnergy -= bullets[currentBullet].EnergyPay;
             }
+            chargeTime = 0;
         }
         if (Input.GetMouseButtonDown(1))
             currentBullet = (currentBullet + 1) % bullets.Count;
@@ -58,9 +71,19 @@ public class PlayerShoot : MonoBehaviour
     private void Shoot()
     {
         if (chargeTime > 1)
-            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation).transform.localScale = new Vector3(2, 2, 2);
+            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation).transform.localScale = new Vector3(1, 1, 1);
         else if (chargeTime < 1)
             Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation);
+    }
+
+    private void CanCharge()
+    {
+        energyCounter += Time.deltaTime;
+        if (energyCounter >= energyFillTime)
+        {
+            energyCounter = 0;
+            currEnergy = Mathf.Clamp(currEnergy += energyFillCount, 0, maxEnergy);
+        }
     }
     #endregion
 
@@ -80,5 +103,7 @@ public class PlayerShoot : MonoBehaviour
     #region Getters & Setters
     public List<BulletPowerUp> Bullets { get => bullets; set => bullets = value; }
     public int CurrentBullet { get => currentBullet; set => currentBullet = value; }
+    public int CurrEnergy { get => currEnergy; set => currEnergy = value; }
+    public int MaxEnergy { get => maxEnergy; set => maxEnergy = value; }
     #endregion
 }

@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
     //Components
     private Rigidbody2D rb;
     private Animator animator;
-    private PlayerController playerController;
 
     //Player Info
     private bool facingRight = true;
@@ -60,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
     #region Unity functions
     private void Awake()
     {
-        playerController = GetComponent<PlayerController>();
         availableJumps = totalJumps;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
@@ -248,13 +246,13 @@ public class PlayerMovement : MonoBehaviour
     /// Applies movement when the player gets hurt
     /// </summary>
     /// <returns></returns>
-    public void Hurt()
-    {
-        rb.velocity = new Vector2(-rb.velocity.x * moveSpeed * 20 * Time.fixedDeltaTime, Mathf.Abs(rb.velocity.y) * moveSpeed * 10 * Time.fixedDeltaTime);
-    }
+    public void Hurt() => rb.velocity = new Vector2(-rb.velocity.x * moveSpeed * 20 * Time.fixedDeltaTime, Mathf.Abs(rb.velocity.y) * moveSpeed * 10 * Time.fixedDeltaTime);
     #endregion
 
     #region Getters & Setters
     public bool IsHurt { get => isHurt; set => isHurt = value; }
+    public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
+    public float RunSpeedModifier { get => runSpeedModifier; set => runSpeedModifier = value; }
+    public float JumpForce { get => jumpForce; set => jumpForce = value; }
     #endregion
 }

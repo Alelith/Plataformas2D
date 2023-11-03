@@ -18,6 +18,8 @@ public class HUDController : MonoBehaviour
     private Image[] lives; 
     [SerializeField]
     private Image currAmmo; 
+    [SerializeField]
+    private RectTransform energy; 
 
     //Level timer
     private float timer;
@@ -26,6 +28,8 @@ public class HUDController : MonoBehaviour
 
     //Lives
     private float currLives;
+    private int currEnergy;
+    private float energyHeight;
     private PlayerController playerController;
     #endregion
 
@@ -34,11 +38,13 @@ public class HUDController : MonoBehaviour
     {
         //Obtains the PlayerController of the scene 
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>(); ;
+        energyHeight = energy.rect.height;
     }
 
     private void Update()
     {
         //Gets and update the HUD Info
+        currEnergy = playerController.PlayerShoot.CurrEnergy;
         currLives = playerController.CurrHealth;
         timer += Time.deltaTime;
         seconds = timer % 60;
@@ -56,6 +62,7 @@ public class HUDController : MonoBehaviour
             else
                 lives[i].enabled = true;
         }
+        energy.sizeDelta = new Vector2(energy.rect.width ,currEnergy * energyHeight / playerController.PlayerShoot.MaxEnergy);
         currAmmo.sprite = playerController.PlayerShoot.Bullets[playerController.PlayerShoot.CurrentBullet].Sprite;
         pointText.text = (playerController.Score * 100).ToString("0000");
     }

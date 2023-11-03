@@ -20,6 +20,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 65e37bc8f51f7f4488444f12dddf3f32, type: 3}
+    - target: {fileID: 2900205694803157877, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900205694803157877, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
+      propertyPath: damage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5582662293385045859, guid: bea5cdcaad0fd8c40a316d60aafa51d7, type: 3}
       propertyPath: m_Controller
       value: 

@@ -32,11 +32,30 @@ public class PlayerController : MonoBehaviour
         {
             playerShoot.Bullets.Add(collision.GetComponent<PowerUpController>().BPU);
 
+            score += (collision.GetComponent<PowerUpController>().BPU.Score * 10);
+
             Destroy(collision.gameObject);
         }
         if (collision.CompareTag("PowerUp"))
         {
-            //TODO Add movement powerUps
+            if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Jump)
+                playerMovement.JumpForce *= 2;
+            else if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Speed)
+            {
+                playerMovement.MoveSpeed *= 2;
+                playerMovement.RunSpeedModifier *= 2;
+            }
+            else if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Life)
+            {
+                if (collision.GetComponent<PowerUpController>().PU.Score == 25)
+                    currHealth = Mathf.Clamp(currHealth++, 1, 10);
+                else if (collision.GetComponent<PowerUpController>().PU.Score == 50)
+                    currHealth = Mathf.Clamp(currHealth += 2, 1, 10);
+            }
+
+            score += (collision.GetComponent<PowerUpController>().PU.Score * 10);
+
+            Destroy(collision.gameObject);
         }
         else if (collision.CompareTag("Enemy"))
         {

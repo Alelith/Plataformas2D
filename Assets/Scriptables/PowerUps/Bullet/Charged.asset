@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65afd2024068e5a4d94adf913699f1dc, type: 3}
   m_Name: Charged
   m_EditorClassIdentifier: 
-  bulletPowerUpType: 0
-  description: 
+  bulletPowerUpType: 2
+  description: Big shoot with slow speed
   bulletPrefab: {fileID: 883397564921576626, guid: 61889adb35e118641b36e2e4379d1067, type: 3}
   score: 25
   sprite: {fileID: 21300000, guid: efc45abe1205f2044af5b68caeaf2a03, type: 3}
+  energyPay: 10

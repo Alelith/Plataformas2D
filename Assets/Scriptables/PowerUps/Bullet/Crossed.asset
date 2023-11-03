@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65afd2024068e5a4d94adf913699f1dc, type: 3}
   m_Name: Crossed
   m_EditorClassIdentifier: 
-  bulletPowerUpType: 0
-  description: 
+  bulletPowerUpType: 3
+  description: Double shoot with fast speed and low damage
   bulletPrefab: {fileID: 1900654253305584049, guid: d76db01bcfca2f44b9200de358c77cc5, type: 3}
   score: 25
   sprite: {fileID: 21300000, guid: a816afaa6295d7c42bc806253db07535, type: 3}
+  energyPay: 10

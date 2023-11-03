@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65afd2024068e5a4d94adf913699f1dc, type: 3}
   m_Name: Spark
   m_EditorClassIdentifier: 
-  bulletPowerUpType: 0
-  description: 
+  bulletPowerUpType: 5
+  description: Large shoot with fast speed and high damage
   bulletPrefab: {fileID: 5796275334757360535, guid: 15c167b9a03ac7943a479b7126e80c9c, type: 3}
   score: 25
   sprite: {fileID: 21300000, guid: b86bc92bbb2113e44a7231c46eaca046, type: 3}
+  energyPay: 15

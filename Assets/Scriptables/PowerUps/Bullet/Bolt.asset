@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65afd2024068e5a4d94adf913699f1dc, type: 3}
   m_Name: Bolt
   m_EditorClassIdentifier: 
-  bulletPowerUpType: 0
-  description: 
+  bulletPowerUpType: 1
+  description: Big shoot with slow speed
   bulletPrefab: {fileID: 4556441660570737679, guid: 83135d9ab4e56bf41868e323df1e7273, type: 3}
   score: 25
   sprite: {fileID: 21300000, guid: ead112b1df80dcb4c9655023921b99ad, type: 3}
+  energyPay: 10

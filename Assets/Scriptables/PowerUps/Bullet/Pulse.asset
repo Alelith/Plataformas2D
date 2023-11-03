@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65afd2024068e5a4d94adf913699f1dc, type: 3}
   m_Name: Pulse
   m_EditorClassIdentifier: 
-  bulletPowerUpType: 0
-  description: 
+  bulletPowerUpType: 4
+  description: Large shoot with fast speed and low damage
   bulletPrefab: {fileID: 5454510060296008937, guid: 378d86095d615b448bba598f4068792f, type: 3}
   score: 25
   sprite: {fileID: 21300000, guid: 09a8a539ebf498945b4ea22311ed5fdc, type: 3}
+  energyPay: 5

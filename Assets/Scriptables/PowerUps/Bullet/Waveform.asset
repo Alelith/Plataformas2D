@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65afd2024068e5a4d94adf913699f1dc, type: 3}
   m_Name: Waveform
   m_EditorClassIdentifier: 
-  bulletPowerUpType: 0
-  description: 
+  bulletPowerUpType: 6
+  description: Large shoot with fast speed and low damage
   bulletPrefab: {fileID: 5295657707532279064, guid: 125356e4b5e82744dbc8a15608263b50, type: 3}
   score: 25
   sprite: {fileID: 21300000, guid: 371b6b61d42073743b5ec7ceebbb9efe, type: 3}
+  energyPay: 5
