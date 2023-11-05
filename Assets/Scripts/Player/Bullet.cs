@@ -11,6 +11,8 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private GameObject destroyPrefab;
 
+    private bool isFromPlayer;
+
     private void Update()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
@@ -18,11 +20,19 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") && isFromPlayer)
         {
             Instantiate(destroyPrefab, transform.position, Quaternion.identity);
+
             collision.GetComponent<EnemyBehaviour>().TakeDamage(damage);
             Destroy(gameObject);
         }
+        else if (collision.CompareTag("Player") && !isFromPlayer)
+        {
+            Instantiate(destroyPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
+
+    public bool IsFromPlayer { get => isFromPlayer; set => isFromPlayer = value; }
 }

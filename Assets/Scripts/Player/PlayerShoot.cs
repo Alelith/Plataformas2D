@@ -71,9 +71,9 @@ public class PlayerShoot : MonoBehaviour
     private void Shoot()
     {
         if (chargeTime > 1)
-            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation).transform.localScale = new Vector3(1, 1, 1);
+            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation).GetComponent<Bullet>().IsFromPlayer = true;
         else if (chargeTime < 1)
-            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation);
+            Instantiate(bullets[currentBullet].BulletPrefab, shootController.position, shootController.rotation).GetComponent<Bullet>().IsFromPlayer = true;
     }
 
     private void CanCharge()

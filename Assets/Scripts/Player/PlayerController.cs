@@ -60,7 +60,11 @@ public class PlayerController : MonoBehaviour
         else if (collision.CompareTag("Enemy"))
         {
             StartCoroutine(Hurt());
-            currHealth--;
+        }
+        else if (collision.CompareTag("Bullet"))
+        {
+            if (!collision.GetComponent<Bullet>().IsFromPlayer)
+                StartCoroutine(Hurt());
         }
     }
     #endregion
@@ -70,13 +74,21 @@ public class PlayerController : MonoBehaviour
     /// Applies movement when the player gets hurt
     /// </summary>
     /// <returns></returns>
-    private IEnumerator Hurt()
+    public IEnumerator Hurt()
     {
-        playerMovement.IsHurt = true;
-        playerMovement.Hurt();
-        yield return new WaitForSeconds(1f);
-        playerMovement.IsHurt = false;
-        yield return new WaitForSeconds(0.5f);
+        if (currHealth-- <= 0)
+        {
+            currHealth--;
+            playerMovement.IsHurt = true;
+            playerMovement.Hurt();
+            yield return new WaitForSeconds(1f);
+            playerMovement.IsHurt = false;
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            GameManager.gameManager.LoseGame();
+        }
     }
     #endregion
 
