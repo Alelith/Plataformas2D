@@ -22,9 +22,14 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Enemy") && isFromPlayer)
         {
+            AudioManager.instance.PlayDamageSound();
             Instantiate(destroyPrefab, transform.position, Quaternion.identity);
 
-            collision.GetComponent<EnemyBehaviour>().TakeDamage(damage);
+            var enemy = collision.GetComponent<EnemyBehaviour>();
+            enemy.TakeDamage(damage);
+
+            GameObject.Find("Player").GetComponent<PlayerController>().Score += enemy.Score;
+
             Destroy(gameObject);
         }
         else if (collision.CompareTag("Player") && !isFromPlayer)

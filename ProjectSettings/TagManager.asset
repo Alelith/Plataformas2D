@@ -8,6 +8,8 @@ TagManager:
   - BulletPowerUp
   - PowerUp
   - Bullet
+  - VictorySwitch
+  - DeadZone
   layers:
   - Default
   - TransparentFX

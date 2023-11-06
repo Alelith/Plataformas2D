@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("BulletPowerUp"))
         {
+            AudioManager.instance.PlayPowerUpSound();
             playerShoot.Bullets.Add(collision.GetComponent<PowerUpController>().BPU);
 
             score += (collision.GetComponent<PowerUpController>().BPU.Score * 10);
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.CompareTag("PowerUp"))
         {
+            AudioManager.instance.PlayPowerUpSound();
             if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Jump)
                 playerMovement.JumpForce *= 1.25f;
             else if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Speed)
@@ -59,12 +61,19 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.CompareTag("Enemy"))
         {
+            AudioManager.instance.PlayDamageSound();
             StartCoroutine(Hurt());
         }
         else if (collision.CompareTag("Bullet"))
         {
+            AudioManager.instance.PlayDamageSound();
             if (!collision.GetComponent<Bullet>().IsFromPlayer)
                 StartCoroutine(Hurt());
+        }
+        else if (collision.CompareTag("DeadZone"))
+        {
+            currHealth = 1;
+            StartCoroutine(Hurt());
         }
     }
     #endregion
@@ -76,9 +85,9 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator Hurt()
     {
-        if (currHealth-- <= 0)
+        currHealth--;
+        if (currHealth > 0)
         {
-            currHealth--;
             playerMovement.IsHurt = true;
             playerMovement.Hurt();
             yield return new WaitForSeconds(1f);
@@ -96,6 +105,6 @@ public class PlayerController : MonoBehaviour
     public PlayerShoot PlayerShoot { get => playerShoot; }
     public PlayerMovement PlayerMovement { get => playerMovement; }
     public int CurrHealth { get => currHealth; }
-    public int Score { get => score; }
+    public int Score { get => score; set => score = value; }
     #endregion
 }

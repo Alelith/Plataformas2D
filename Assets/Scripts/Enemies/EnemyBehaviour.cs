@@ -28,7 +28,7 @@ public abstract class EnemyBehaviour : MonoBehaviour
 
     //Score
     [SerializeField]
-    protected int score;
+    private int score;
 
     //Animation
     protected Animator animator;
@@ -99,7 +99,7 @@ public abstract class EnemyBehaviour : MonoBehaviour
     /// <summary>
     /// Erases the enemy of the map
     /// </summary>
-    protected void Dead()
+    protected virtual void Dead()
     {
         Instantiate(deadPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
@@ -144,6 +144,8 @@ public abstract class EnemyBehaviour : MonoBehaviour
         canTakeDamage = true;
     }
     #endregion
+
+    public int Score { get => score; set => score = value; }
 }
 
 public enum MovementDirection

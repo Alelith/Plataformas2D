@@ -147,6 +147,7 @@ MonoBehaviour:
   initialDirection: {x: -1, y: 0}
   life: 2
   deadPrefab: {fileID: 1795467754262238526, guid: 3fb800c6a799ca94e85ef434fa626504, type: 3}
+  score: 5
 --- !u!1 &6095050156545459237
 GameObject:
   m_ObjectHideFlags: 0

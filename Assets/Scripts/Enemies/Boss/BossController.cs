@@ -15,13 +15,12 @@ public class BossController : EnemyBehaviour, IAttackerInterface
     [SerializeField]
     private int recoilTime;
     private float counter;
-
-    private Animator animator;
     #endregion
 
     #region Unity Functions
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         shootPoint.SetActive(false);
         animator = shootPoint.GetComponent<Animator>();
         objetive = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -47,6 +46,13 @@ public class BossController : EnemyBehaviour, IAttackerInterface
     protected override void EnemyMove()
     {
         
+    }
+
+    protected override void Dead()
+    {
+        Instantiate(deadPrefab, transform.position, Quaternion.identity);
+        GameManager.gameManager.WinGame();
+        Destroy(gameObject);
     }
 
     public IEnumerator Attack()

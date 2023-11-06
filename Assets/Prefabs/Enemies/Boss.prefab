@@ -199,10 +199,9 @@ MonoBehaviour:
   initialDirection: {x: 1, y: 0}
   life: 20
   deadPrefab: {fileID: 1795467754262238526, guid: 3fb800c6a799ca94e85ef434fa626504, type: 3}
-  score: 0
+  score: 100
   shootPoint: {fileID: 4463412873096728159}
   bossShoot: {fileID: 676289475595306318, guid: 41d801fc245161e4eac56fee502c5691, type: 3}
-  objetive: {fileID: 0}
   recoilTime: 7
 --- !u!1 &2254091790310143309
 GameObject:
