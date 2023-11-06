@@ -39,11 +39,11 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("PowerUp"))
         {
             if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Jump)
-                playerMovement.JumpForce *= 2;
+                playerMovement.JumpForce *= 1.25f;
             else if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Speed)
             {
-                playerMovement.MoveSpeed *= 2;
-                playerMovement.RunSpeedModifier *= 2;
+                playerMovement.MoveSpeed *= 1.25f;
+                playerMovement.RunSpeedModifier *= 1.25f;
             }
             else if (collision.GetComponent<PowerUpController>().PU.PowerUpType == PowerUpTypes.Life)
             {

@@ -201,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
         //Direction where the player is going to move in the x axis
         float xVal = horizontalAxis * moveSpeed * 100 * Time.fixedDeltaTime;
 
-        if (isRunning)
+        if (isRunning && !isCrouching)
             xVal *= runSpeedModifier;
         else if (isCrouching)
             xVal /= crouchSpeedModifier;
