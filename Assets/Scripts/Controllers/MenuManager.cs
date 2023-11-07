@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    #region Attributes
     [SerializeField]
     private GameObject creditPanel;
 
@@ -15,7 +16,9 @@ public class MenuManager : MonoBehaviour
             creditPanel.SetActive(false);
         }
     }
+    #endregion
 
+    #region Button Functions
     public void OnPlayButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -30,4 +33,5 @@ public class MenuManager : MonoBehaviour
     {
         creditPanel.SetActive(true);
     }
+    #endregion
 }

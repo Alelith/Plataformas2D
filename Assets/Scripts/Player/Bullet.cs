@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    #region Attributes
     [SerializeField]
     private float speed;
     [SerializeField]
@@ -12,7 +13,9 @@ public class Bullet : MonoBehaviour
     private GameObject destroyPrefab;
 
     private bool isFromPlayer;
+    #endregion
 
+    #region Unity Functions
     private void Update()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
@@ -38,6 +41,9 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    #endregion
 
+    #region Getters & Setters
     public bool IsFromPlayer { get => isFromPlayer; set => isFromPlayer = value; }
+    #endregion
 }

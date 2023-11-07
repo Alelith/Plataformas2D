@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    #region Attributes
     public static AudioManager instance;
 
     [SerializeField]
     private AudioSource powerUpAudio;
     [SerializeField]
     private AudioSource damageAudio;
+    #endregion
 
+    #region Unity Functions
     private void Awake()
     {
         if (instance != null)
@@ -22,7 +25,9 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
     }
+    #endregion
 
+    #region Sound Functions
     public void PlayDamageSound()
     {
         damageAudio.Play();
@@ -32,4 +37,5 @@ public class AudioManager : MonoBehaviour
     {
         powerUpAudio.Play();
     }
+    #endregion
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BulletPowerUp", menuName = "PowerUp/Bullet")]
 public class BulletPowerUp : ScriptableObject
 {
+    #region Attributes
     [SerializeField]
     private BulletPowerUpTypes bulletPowerUpType;
     [TextArea]
@@ -18,13 +19,16 @@ public class BulletPowerUp : ScriptableObject
     private Sprite sprite;
     [SerializeField]
     private int energyPay;
+    #endregion
 
+    #region Getters & Setters
     public BulletPowerUpTypes BulletPowerUpType { get => bulletPowerUpType; }
     public string Description { get => description; }
     public GameObject BulletPrefab { get => bulletPrefab; }
     public int Score { get => score; }
     public Sprite Sprite { get => sprite; }
     public int EnergyPay { get => energyPay; }
+    #endregion
 }
 
 public enum BulletPowerUpTypes

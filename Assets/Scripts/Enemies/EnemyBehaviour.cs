@@ -145,7 +145,9 @@ public abstract class EnemyBehaviour : MonoBehaviour
     }
     #endregion
 
+    #region Getters & Setters
     public int Score { get => score; set => score = value; }
+    #endregion
 }
 
 public enum MovementDirection

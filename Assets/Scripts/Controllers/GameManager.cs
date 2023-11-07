@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    #region Attributes
     //Panels
     [Header("Panels")]
     [SerializeField]
@@ -24,7 +25,9 @@ public class GameManager : MonoBehaviour
 
     //Singleton
     public static GameManager gameManager;
+    #endregion
 
+    #region Unity Functions
     private void Awake()
     {
         currentScene = 1;
@@ -40,7 +43,9 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(this);
     }
+    #endregion
 
+    #region Management Functions
     /// <summary>
     /// Shows loose panel
     /// </summary>
@@ -90,4 +95,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
         Destroy(this.gameObject);
     }
+    #endregion
 }
